@@ -1,0 +1,53 @@
+/**
+ * Chrome Page Style
+ */
+
+body {
+    background-color: white;
+    color: black;
+    margin: 10px;
+}
+
+.header {
+    overflow: auto;
+    clear: both;
+}
+
+.header .logo {
+    float: left;
+}
+
+.header .form {
+    float: left;
+    margin-top: 22px;
+    -webkit-margin-start: 12px;
+}
+
+html .logo {
+    float: right;
+}
+
+#downloads-summary {
+    margin-top: 12px;
+    border-top: 1px solid #9cc2ef;
+    background-color: #ebeff9;
+    padding: 3px;
+    margin-bottom: 6px;
+}
+
+#downloads-summary-text {
+    font-weight: bold;
+}
+
+#downloads-summary > a {
+    float: right;
+}
+
+#downloads-display {
+    max-width: 740px;
+}
+
+.download {
+    position: relative;
+    margin-top: 6px;
+}
