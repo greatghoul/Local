@@ -1,9 +1,47 @@
-<!DOCTyPE HTML>
+<!DOCTYPE HTML>
 <html>
-    <head>
+    <head> 
         <meta http-equiv="Content-Type" content="text/html; charset='utf-8" />
         <title>Doc Books</title>
-        <link type="text/css" rel="stylesheet" href="url_for('static', filename='style.css')" />
+        <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='style.css') }}" />
     </head>
     <body>
-
+        <div id="outer">
+            <div id="header">
+                <a id="logo"><img src="{{ url_for('docs.static', filename='download.png') }}"/></a>
+                <form id="search-form">
+                    <input type="text" name="keyword"/>
+                    <input type="submit" value="Search"/>
+                </form>
+            </div>
+            <div id="content">
+                <div id="title-bar">
+                    <span id="title">Local Documents</span>
+                    <a href="javascript:;">Add Document</a>
+                </div>
+                <ul id="doc-list">
+                    {% for doc in docs %}
+                    <li class="doc">
+                        <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
+                        <div class="doc-name">
+                            <a href="http://local.g2w.me/docs/{{ doc.slag }}">{{ doc.name }}</a>
+                            <a href="javascript:;" class="label">python</a>
+                            <a href="javascript:;" class="label">flask</a>
+                        </div>
+                        <div class="doc-url">
+                            <a href="#">http://local.g2w.me/docs/{{ doc.slag }}</a>
+                        </div>
+                        <div class="doc-url">
+                            <a href="javascript:window.open('file://{{ doc.path }}');">{{ doc.path }}</a>
+                        </div>
+                        <div class="doc-ctrl">
+                            <a href="javascript:;">Edit</a>
+                            <a href="javascript:;">Remove</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

@@ -4,30 +4,28 @@
 
 body {
     background-color: white;
+    font-family: Arial, sans-serif;
+    font-size: 84%; 
     color: black;
     margin: 10px;
 }
 
-.header {
+#header {
     overflow: auto;
     clear: both;
 }
 
-.header .logo {
+#logo {
     float: left;
 }
 
-.header .form {
+#search-form {
     float: left;
     margin-top: 22px;
     -webkit-margin-start: 12px;
 }
 
-html .logo {
-    float: right;
-}
-
-#downloads-summary {
+#title-bar {
     margin-top: 12px;
     border-top: 1px solid #9cc2ef;
     background-color: #ebeff9;
@@ -35,19 +33,80 @@ html .logo {
     margin-bottom: 6px;
 }
 
-#downloads-summary-text {
+#title {
     font-weight: bold;
 }
 
-#downloads-summary > a {
+#title-bar a {
     float: right;
 }
 
-#downloads-display {
-    max-width: 740px;
+#doc-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.download {
+.doc {
     position: relative;
     margin-top: 6px;
+    padding: 6px;
+    -webkit-border-radius: 4px;
+}
+
+.doc .doc-icon {
+    position: absolute;
+    top: 2px;
+    left: 13px;
+    width: 32px;
+    height: 32px;
+}
+
+.doc .doc-name {
+    margin-left: 50px;
+}
+
+.doc .doc-name a {
+    -webkit-padding-end: 16px;
+    max-width: 450px;
+    word-break: break-all;
+}
+
+.doc .doc-name .label {
+    display: inline;
+    color: #56D;
+    background: #EBEBEB;
+    white-space: nowrap;
+    padding: 2px 4px;
+    -webkit-border-radius: 2px;
+    text-decoration: none;
+}
+
+.doc .doc-name .label:hover {
+    background: #CBCBCB;
+}
+
+.doc .doc-url {
+    margin-left: 50px;
+}
+
+.doc .doc-url a {
+    display: inline-block;
+    color: #56D;
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    padding-top: 4px;
+    padding-bottom: 1px;
+}
+
+.doc .doc-ctrl {
+    margin-left: 50px;
+}
+
+.doc .doc-ctrl a {
+    color: #777;
+    margin-right: 16px;
 }
