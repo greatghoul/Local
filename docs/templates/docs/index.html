@@ -4,6 +4,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset='utf-8" />
         <title>Doc Books</title>
         <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='style.css') }}" />
+        <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.mustache.js') }}"></script>
+        <script id="tpl-test" type="text/x-tmpl-mustache">
+            <span>{{ '{{ hello }}' }}</span>
+        </script>
+        <script type="text/javascript">
+            $(function() {
+                $("#tpl-test").mustache({ hello: 'Hello World!'}).appendTo("#header");
+            });
+        </script>
     </head>
     <body>
         <div id="outer">
