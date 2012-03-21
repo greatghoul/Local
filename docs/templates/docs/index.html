@@ -3,11 +3,31 @@
     <head> 
         <meta http-equiv="Content-Type" content="text/html; charset='utf-8" />
         <title>Doc Books</title>
+        <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='bootstrap.min.css') }}" />
         <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='style.css') }}" />
         <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.mustache.js') }}"></script>
-        <script id="tpl-test" type="text/x-tmpl-mustache">
-            <span>{{ '{{ hello }}' }}</span>
+        <script type="text/javascript" src="{{ url_for('docs.static', filename='docs.js') }}"></script>
+        <script id="tpl-add-doc" type="text/x-tmpl-mustache">
+            <li class="doc" id="add-doc">
+            <form class=".form-vertical">
+                <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
+                <div class="doc-name">
+                    <input type="text" name="name" id="add-doc-name" placeholder="Document Name" class="input-xlarge"/>
+                </div>
+                <div class="doc-url">
+                    <span>http://local.g2w.me/docs/</span>
+                    <input type="text" name="slug" id="add-doc-slug" class="input-small" placeholder="slug" />
+                </div>
+                <div class="doc-path">
+                    <input type="text" name="path" id="add-doc-path" class="input-xxlarge" placeholder="Document Path" />
+                </div>
+                <div class="doc-ctrl">
+                    <button class="btn btn-primary" id="add-doc-save">Save</button>
+                    <button class="btn" id="add-doc-cancel">Cancel</button>
+                </div>
+            </form>
+            </li>
         </script>
         <script type="text/javascript">
             $(function() {
@@ -19,27 +39,27 @@
         <div id="outer">
             <div id="header">
                 <a id="logo"><img src="{{ url_for('docs.static', filename='download.png') }}"/></a>
-                <form id="search-form">
-                    <input type="text" name="keyword"/>
-                    <input type="submit" value="Search"/>
+                <form id="search-form" class="form-search">
+                    <input type="text" name="keyword" class="input-medium search-query"/>
+                    <button type="submit" class="btn">Search</button>
                 </form>
             </div>
             <div id="content">
                 <div id="title-bar">
                     <span id="title">Local Documents</span>
-                    <a href="javascript:;">Add Document</a>
+                    <a href="javascript:;" id="add-doc-btn">Add Document</a>
                 </div>
                 <ul id="doc-list">
                     {% for doc in docs %}
                     <li class="doc">
                         <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
                         <div class="doc-name">
-                            <a href="http://local.g2w.me/docs/{{ doc.slag }}">{{ doc.name }}</a>
+                            <a href="http://local.g2w.me/docs/{{ doc.slug }}">{{ doc.name }}</a>
                             <a href="javascript:;" class="label">python</a>
                             <a href="javascript:;" class="label">flask</a>
                         </div>
                         <div class="doc-url">
-                            <a href="#">http://local.g2w.me/docs/{{ doc.slag }}</a>
+                            <a href="#">http://local.g2w.me/docs/{{ doc.slug }}</a>
                         </div>
                         <div class="doc-url">
                             <a href="javascript:window.open('file://{{ doc.path }}');">{{ doc.path }}</a>

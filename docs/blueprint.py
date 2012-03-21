@@ -24,21 +24,21 @@ def edit():
     alias = request.form.get('alias')
     pass
 
-@docs.route('/<slag>/')
-@docs.route('/<slag>/<path:filename>')
-def view(slag, filename=''):
-    doc = db_session.query(Doc).filter_by(slag=slag).first()
+@docs.route('/<slug>/')
+@docs.route('/<slug>/<path:filename>')
+def view(slug, filename=''):
+    doc = db_session.query(Doc).filter_by(slug=slug).first()
     if doc:
         doc_file = os.path.join(doc.path, filename)
         if os.path.isfile(doc_file):
             return send_file(doc_file)
         elif os.path.isdir(doc_file):
             if filename and not filename.endswith('/'):
-                return redirect(url_for('.view', slag=slag, filename=filename+'/'))
+                return redirect(url_for('.view', slug=slug, filename=filename+'/'))
             else:
                 for page in HOME_PAGES:
                     if os.path.exists(os.path.join(doc_file, page)):
-                        return redirect(url_for('.view', slag=slag, filename=filename + page))
+                        return redirect(url_for('.view', slug=slug, filename=filename + page))
     abort(404)
 
 @docs.teardown_request

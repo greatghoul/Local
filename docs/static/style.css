@@ -27,10 +27,12 @@ body {
 
 #title-bar {
     margin-top: 12px;
-    border-top: 1px solid #9cc2ef;
+    border: 1px solid #9cc2ef;
+    border-bottom: none;
     background-color: #ebeff9;
     padding: 3px;
-    margin-bottom: 6px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
 }
 
 #title {
@@ -49,14 +51,13 @@ body {
 
 .doc {
     position: relative;
-    margin-top: 6px;
+    margin-bottom: 6px;
     padding: 6px;
-    -webkit-border-radius: 4px;
 }
 
 .doc .doc-icon {
     position: absolute;
-    top: 2px;
+    top: 8px;
     left: 13px;
     width: 32px;
     height: 32px;
@@ -86,7 +87,7 @@ body {
     background: #CBCBCB;
 }
 
-.doc .doc-url {
+.doc .doc-url, .doc .doc-path {
     margin-left: 50px;
 }
 
@@ -110,3 +111,19 @@ body {
     color: #777;
     margin-right: 16px;
 }
+
+#add-doc {
+    display: none;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    background: #FAFAFA;
+    border: 1px solid #DDD;
+    border-top: none;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+#add-doc form { margin: 0; }
+#add-doc .doc-url span { color: #56D; }
