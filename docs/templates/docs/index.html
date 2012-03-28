@@ -10,7 +10,7 @@
         <script type="text/javascript" src="{{ url_for('docs.static', filename='docs.js') }}"></script>
         <script id="tpl-add-doc" type="text/x-tmpl-mustache">
             <li class="doc" id="add-doc">
-            <form class=".form-vertical">
+            <form class=".form-vertical" method="POST" action="{{ url_for('docs.add') }}">
                 <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
                 <div class="doc-name">
                     <input type="text" name="name" id="add-doc-name" placeholder="Document Name" class="input-xlarge"/>

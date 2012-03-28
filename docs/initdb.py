@@ -24,5 +24,5 @@ def show_docs():
 
 if __name__ == '__main__':
     init_database()
-    init_docs()
+    #init_docs()
     show_docs()

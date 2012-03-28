@@ -9,13 +9,13 @@ $(function() {
         $('#add-doc').slideDown();
 
         // Event bindings
-        $('#add-doc-save').click(function() {
-            alert('New document created.');
-            $('#add-doc').slideUp(function() {
-                $(this).remove();
-            });
-            return false;
-        });
+        // $('#add-doc-save').click(function() {
+        //     // alert('New document created.');
+        //     // $('#add-doc').slideUp(function() {
+        //     //    $(this).remove();
+        //     //});
+        //     //return false;
+        // });
         $('#add-doc-cancel').click(function() {
             $('#add-doc').slideUp(function() {
                 $(this).remove();
