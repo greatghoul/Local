@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# source application-specific settings
+. /etc/rc.conf
+. /etc/rc.d/functions
+
+# Change to working directory
+# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/$0"
+
+CMD=python
+ARGS=/home/greatghoul/Projects/Local/main.py
+
+PID=$(pidof -o %PPID ${CMD} ${ARGS})
+case "$1" in
+  start)
+    stat_busy "Starting Local Service"
+    [ -z "$PID" ] && nohup ${CMD} ${ARGS} >> /home/greatghoul/Projects/Local/runlog.log 2>&1 &
+    sleep 5
+    PID=$(pidof -o %PPID ${CMD} ${ARGS})
+    if [ -z "$PID" ]; then
+      stat_fail
+    else
+      add_daemon local
+      stat_done
+    fi
+    ;;
+  stop)
+    stat_busy "Stopping Local Service"
+    [ ! -z "$PID" ]  && kill $PID &> /dev/null
+    if [ $? -gt 0 ]; then
+      stat_fail
+    else
+      rm_daemon local
+      stat_done
+    fi
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart}"  
+esac
+exit 0
