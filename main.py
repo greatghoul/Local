@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
+import logging
+logging.basicConfig(level=logging.INFO)
 
-from flask import Flask
-from flask import render_template
+from flask import Flask, url_for
 from sqlalchemy import create_engine
 
 app = Flask(__name__)

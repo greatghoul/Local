@@ -1,77 +1,29 @@
-<!DOCTYPE HTML>
-<html>
-    <head> 
-        <meta http-equiv="Content-Type" content="text/html; charset='utf-8" />
-        <title>Doc Books</title>
-        <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='bootstrap.min.css') }}" />
-        <link type="text/css" rel="stylesheet" href="{{ url_for('docs.static', filename='style.css') }}" />
-        <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('docs.static', filename='jquery.mustache.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('docs.static', filename='docs.js') }}"></script>
-        <script id="tpl-add-doc" type="text/x-tmpl-mustache">
-            <li class="doc" id="add-doc">
-            <form class=".form-vertical" method="POST" action="{{ url_for('docs.add') }}">
-                <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
-                <div class="doc-name">
-                    <input type="text" name="name" id="add-doc-name" placeholder="Document Name" class="input-xlarge"/>
-                </div>
-                <div class="doc-url">
-                    <span>http://local.g2w.me/docs/</span>
-                    <input type="text" name="slug" id="add-doc-slug" class="input-small" placeholder="slug" />
-                </div>
-                <div class="doc-path">
-                    <input type="text" name="path" id="add-doc-path" class="input-xxlarge" placeholder="Document Path" />
-                </div>
-                <div class="doc-ctrl">
-                    <button class="btn btn-primary" id="add-doc-save">Save</button>
-                    <button class="btn" id="add-doc-cancel">Cancel</button>
-                </div>
-            </form>
-            </li>
-        </script>
-        <script type="text/javascript">
-            $(function() {
-                $("#tpl-test").mustache({ hello: 'Hello World!'}).appendTo("#header");
-            });
-        </script>
-    </head>
-    <body>
-        <div id="outer">
-            <div id="header">
-                <a id="logo"><img src="{{ url_for('docs.static', filename='download.png') }}"/></a>
-                <form id="search-form" class="form-search">
-                    <input type="text" name="keyword" class="input-medium search-query"/>
-                    <button type="submit" class="btn">Search</button>
-                </form>
-            </div>
-            <div id="content">
-                <div id="title-bar">
-                    <span id="title">Local Documents</span>
-                    <a href="javascript:;" id="add-doc-btn">Add Document</a>
-                </div>
-                <ul id="doc-list">
-                    {% for doc in docs %}
-                    <li class="doc">
-                        <img class="doc-icon" src="{{ url_for('docs.static', filename='doc.png') }}" />
-                        <div class="doc-name">
-                            <a href="http://local.g2w.me/docs/{{ doc.slug }}" target="_blank">{{ doc.name }}</a>
-                            <a href="javascript:;" class="label">python</a>
-                            <a href="javascript:;" class="label">flask</a>
-                        </div>
-                        <div class="doc-url">
-                            <a href="#">http://local.g2w.me/docs/{{ doc.slug }}</a>
-                        </div>
-                        <div class="doc-url">
-                            <a href="javascript:window.open('file://{{ doc.path }}');">{{ doc.path }}</a>
-                        </div>
-                        <div class="doc-ctrl">
-                            <a href="javascript:;">Edit</a>
-                            <a href="javascript:;">Remove</a>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+{% extends 'docs/layout.html' %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('docs.static', filename='docs.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<ul id="doc-list">
+    {% for doc in docs %}
+    <li class="doc">
+        <div class="doc-name">
+            <a href="{{ url_for('.view', slug=doc.slug) }}" target="_blank">{{ doc.name }}</a>
+            <a href="javascript:;" class="label">python</a>
+            <a href="javascript:;" class="label">flask</a>
         </div>
-    </body>
-</html>
+        <div class="doc-url">
+            <a href="#" class="muted">{{ request.url_root }}docs/doc/{{ doc.slug }}</a>
+        </div>
+        <div class="doc-url">
+            <a href="javascript:window.open('file://{{ doc.path }}');" class="muted">{{ doc.path }}</a>
+        </div>
+        <div class="doc-ctrl">
+            <a href="{{ url_for('docs.update', doc_id=doc.id) }}">Edit</a>
+            <a href="{{ url_for('docs.delete', doc_id=doc.id) }}">Remove</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

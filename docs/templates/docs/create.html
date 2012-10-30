@@ -1,0 +1,37 @@
+{% extends 'docs/layout.html' %}
+
+{% block nav_active %}
+    <span class="divider">/</span>
+    <li class="active">Create new document</li>
+{% endblock %}
+
+{% block content %}
+    <form class="form form-horizontal" method="POST" action="{{ url_for('docs.create') }}">
+        <div class="control-group">
+            <label class="control-label">Name</label>
+            <div class="controls">
+                <input type="text" name="name" placeholder="Document Name" class="input-xlarge"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Slug</label>
+            <div class="controls">
+                <span>{{ request.url_root }}docs/doc/</span>
+                <input type="text" name="slug" class="input-small" placeholder="slug" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Root directory</label>
+            <div class="controls">
+                <input type="text" name="path" class="input-xxlarge" placeholder="Document root directory" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="reset" class="btn">Reset</button>
+        </div>
+    </form>
+{% endblock %}

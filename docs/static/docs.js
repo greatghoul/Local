@@ -1,3 +1,4 @@
+// Edit doc
 $(function() {
     // Show add document panel.
     $('#add-doc-btn').click(function() {
@@ -6,6 +7,7 @@ $(function() {
 
         // Show a new add document panel
         $("#tpl-add-doc").mustache({ }).prependTo("#doc-list");
+
         $('#add-doc').slideDown();
 
         // Event bindings
@@ -23,5 +25,11 @@ $(function() {
             return false;
         });
     });
-    
+
+    $(".btn-edit").live('click', function() {
+        $.getJSON($(this).data('url'), function(doc) {
+            $("#tpl-edit-doc").mustache(doc).prependTo("#doc-list");
+        });
+    });
+
 });
