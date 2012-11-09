@@ -27,7 +27,7 @@ def save():
         doc.slug = form.data['slug']
         doc.path = form.data['path']
         db.session.add(doc)
-        flash('Document <strong>%s</strong> created successful.', 'success')
+        flash('Document created successfully.', 'success')
         return form.redirect('doc.index')
     else:
         flash('Failed while creating doc.', 'error')
