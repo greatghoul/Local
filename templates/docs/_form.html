@@ -1,0 +1,35 @@
+<form class="form-horizontal" method="POST" action="{{ url_for('docs.save') }}">
+    {{ form.hidden_tag() }}
+    <div class="control-group {{ form.name | error_class }}">
+        <label class="control-label">{{ form.name.label }}</label>
+        <div class="controls">
+            {{ form.name(placeholder='Document Name', class='input-xlarge') }}
+            <span class="help-block">{{ form.name | error_text }}</span>
+        </div>
+    </div>
+
+    <div class="control-group {{ form.slug | error_class }}">
+        <label class="control-label">{{ form.slug.label }}</label>
+       <div class="controls">
+           <div class="input-prepend">
+               <span class="add-on">{{ request.url_root }}docs/doc/</span>
+               {{ form.slug(placeholder='slug', class='input-small') }}
+           </div>
+            <span class="help-block">{{ form.slug | error_text }}</span>
+        </div>
+    </div>
+
+    <div class="control-group {{ form.path | error_class }}">
+        <label class="control-label">{{ form.name.label }}</label>
+        <div class="controls">
+            {{ form.path(placeholder='Document root directory', class='input-xxlarge') }}
+            <span class="help-block">{{ form.path | error_text }}</span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="reset" class="btn">Reset</button>
+        <a href="{{ url_for('docs.index') }}" class="btn-link">Back</button>
+    </div>
+</form>

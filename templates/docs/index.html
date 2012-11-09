@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="content">
+
+    <div class="page-header">
+        <a href="{{ url_for('docs.new') }}" class="btn btn-success pull-right">Add Document</a>
+        <h1>Docs Home</h1>
+    </div>
+
+    <ul id="doc-list">
+        {% for doc in docs %}
+            <li class="doc">
+                <div class="doc-name">
+                    <a href="{{ url_for('.view', slug=doc.slug) }}" target="_blank">{{ doc.name }}</a>
+                    <a href="javascript:;" class="label">python</a>
+                    <a href="javascript:;" class="label">flask</a>
+                </div>
+                <div class="doc-url">
+                    <a href="#" class="muted">{{ request.url_root }}docs/doc/{{ doc.slug }}</a>
+                </div>
+                <div class="doc-url">
+                    <a href="javascript:window.open('file://{{ doc.path }}');" class="muted">{{ doc.path }}</a>
+                </div>
+                <div class="doc-ctrl">
+                    <a href="{{ url_for('docs.new') }}">Edit</a>
+                    <a href="{{ url_for('docs.new') }}">Remove</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

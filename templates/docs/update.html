@@ -1,16 +1,16 @@
-{% extends 'docs/layout.html' %}
+{% extends 'layout.html' %}
 
 {% block nav_active %}
     <span class="divider">/</span>
-    <li class="active">Create new document</li>
+    <li class="active">Update: <strong>{{ doc.name }}</strong></li>
 {% endblock %}
 
 {% block content %}
-    <form class="form form-horizontal" method="POST" action="{{ url_for('docs.create') }}">
+    <form class="form form-horizontal" method="POST" action="{{ url_for('docs.update', doc_id=doc.id) }}">
         <div class="control-group">
             <label class="control-label">Name</label>
             <div class="controls">
-                <input type="text" name="name" placeholder="Document Name" class="input-xlarge"/>
+                <input type="text" name="name" placeholder="Document Name" class="input-xlarge" value="{{ doc.name }}" />
             </div>
         </div>
 
@@ -18,19 +18,19 @@
             <label class="control-label">Slug</label>
             <div class="controls">
                 <span>{{ request.url_root }}docs/doc/</span>
-                <input type="text" name="slug" class="input-small" placeholder="slug" />
+                <input type="text" name="slug" class="input-medium" placeholder="slug" value="{{ doc.slug }}" />
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label">Root directory</label>
             <div class="controls">
-                <input type="text" name="path" class="input-xxlarge" placeholder="Document root directory" />
+                <input type="text" name="path" class="input-xxlarge" placeholder="Document root directory" value="{{ doc.path }}" />
             </div>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn">Reset</button>
         </div>
     </form>

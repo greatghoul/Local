@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block nav_active %}
+    <span class="divider">/</span>
+    <li class="active">Create new document</li>
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-header">
+            <h1>Add Document</h1>
+        </div>
+        
+        {% include 'docs/_form.html' %}
+    </form>
+{% endblock %}
