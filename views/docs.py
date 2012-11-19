@@ -2,8 +2,8 @@
 import logging
 logger = logging.getLogger(__name__)
 
-from flask import Blueprint, redirect, abort, \
-        url_for, send_file, render_template, flash
+from flask import Blueprint, redirect, url_for, send_file, \
+                  render_template, flash, request
 from extensions import db
 from models.docs import Doc
 from forms.docs import DocForm
@@ -15,37 +15,53 @@ docs = Blueprint('docs', __name__)
 
 @docs.route('/', methods=['GET'])
 def index():
-    docs = Doc.query.all()
-    return render_template('docs/index.html', docs=docs)
+    keyword = request.args.get('q', None)
+    page = int(request.args.get('page', '1'))
+    logger.info('Keyworkd %s', keyword)
+    query = keyword and Doc.query.filter(Doc.name.like(u'%%%s%%' % keyword)) or Doc.query
+    pagination = query.paginate(page, per_page=10)
+    # docs = pagination.items
+    return render_template('docs/index.html', pagination=pagination)
 
-@docs.route('/save', methods=['POST'])
-def save():
+@docs.route('/create', methods=['GET', 'POST'])
+def create():
     form = DocForm(csrf_enabled=False)
     if form.validate_on_submit():
         doc = Doc()
-        doc.name = form.data['name']
-        doc.slug = form.data['slug']
-        doc.path = form.data['path']
+        logger.info(form.populate_obj(doc))
         db.session.add(doc)
         flash('Document created successfully.', 'success')
-        return form.redirect('doc.index')
+        return form.redirect('.index')
     else:
-        flash('Failed while creating doc.', 'error')
-        return render_template('docs/new.html', form=form)
+        return render_template('docs/create.html', form=form)
 
-@docs.route('/new')
-def new():
+@docs.route('/update/<slug>/', methods=['GET', 'POST'])
+def update(slug):
+    doc = Doc.query.filter_by(slug=slug).first()
+    if doc is None:
+        flash('Document <strong>%s</strong> is missing.', 'error')
+        return redirect('.index')
+
     form = DocForm(csrf_enabled=False)
-    return render_template('docs/new.html', form=form)
+    if form.validate_on_submit():
+        form.populate_obj(doc)
+        flash('Document updated successfully.', 'success')
+        return form.redirect('.index')
+    else:
+        not form.errors and form.process(obj=doc)
+        return render_template('docs/create.html', form=form)
 
-@docs.route('/delete/<doc_id>/', methods='DELETE')
-def delete(doc_id):
-    return redirect(url_for('index'))
+@docs.route('/destroy/<slug>/')
+def destroy(slug):
+    doc = Doc.query.filter_by(slug=slug).first()
+    flash(u'Document <storng>%s</strong> deleted successfully.' % slug, 'success') 
+    db.session.delete(doc)
+    return redirect(url_for('.index'))
 
 @docs.route('/doc/<slug>/')
 @docs.route('/doc/<slug>/<path:filename>')
 def view(slug, filename=''):
-    doc = Doc.query.filter_by(slug=slug).first()
+    doc = Doc.query.filter_by(slug=slug).first_or_404()
     if doc:
         doc_file = os.path.join(doc.path, filename)
         if os.path.isfile(doc_file):
@@ -57,4 +73,3 @@ def view(slug, filename=''):
                 for page in HOME_PAGES:
                     if os.path.exists(os.path.join(doc_file, page)):
                         return redirect(url_for('.view', slug=slug, filename=filename + page))
-    abort(404)

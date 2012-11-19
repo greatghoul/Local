@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="POST" action="{{ url_for('docs.save') }}">
+<form class="form-horizontal" method="POST" action="">
     {{ form.hidden_tag() }}
     <div class="control-group {{ form.name | error_class }}">
         <label class="control-label">{{ form.name.label }}</label>
@@ -13,7 +13,7 @@
        <div class="controls">
            <div class="input-prepend">
                <span class="add-on">{{ request.url_root }}docs/doc/</span>
-               {{ form.slug(placeholder='slug', class='input-small') }}
+               {{ form.slug(placeholder='slug', class='input-medium') }}
            </div>
             <span class="help-block">{{ form.slug | error_text }}</span>
         </div>

@@ -4,30 +4,35 @@
 <div class="content">
 
     <div class="page-header">
-        <a href="{{ url_for('docs.new') }}" class="btn btn-success pull-right">Add Document</a>
+        <a href="{{ url_for('docs.create') }}" class="btn btn-success pull-right">Add Document</a>
+        
+        <form class="form-search pull-right" style="margin-right: 20px;">
+          <input type="text" name="q" class="input-large" placeholder="Type to search ...">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
         <h1>Docs Home</h1>
     </div>
 
-    <ul id="doc-list">
-        {% for doc in docs %}
-            <li class="doc">
-                <div class="doc-name">
-                    <a href="{{ url_for('.view', slug=doc.slug) }}" target="_blank">{{ doc.name }}</a>
-                    <a href="javascript:;" class="label">python</a>
-                    <a href="javascript:;" class="label">flask</a>
-                </div>
-                <div class="doc-url">
-                    <a href="#" class="muted">{{ request.url_root }}docs/doc/{{ doc.slug }}</a>
-                </div>
-                <div class="doc-url">
-                    <a href="javascript:window.open('file://{{ doc.path }}');" class="muted">{{ doc.path }}</a>
-                </div>
-                <div class="doc-ctrl">
-                    <a href="{{ url_for('docs.new') }}">Edit</a>
-                    <a href="{{ url_for('docs.new') }}">Remove</a>
-                </div>
-            </li>
+    <table class="table table-bordered table-striped table-hover table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Path</th>
+            <th width="100">Actions</th>
+        </tr>
+        {% for doc in pagination.items %}
+            <tr>
+                <td><a href="{{ url_for('.view', slug=doc.slug) }}" target="_blank">{{ doc.name }}</a></td>
+                <td><a href="javascript:window.open('file://{{ doc.path }}');" class="muted">{{ doc.path }}</a></td>
+                <td>
+                    <a href="{{ url_for('docs.update', slug=doc.slug) }}" class="btn btn-mini btn-primary">Edit</a>
+                    <a href="{{ url_for('docs.destroy', slug=doc.slug) }}" data-confirm="Remove it or not?" class="btn btn-mini btn-danger">Remove</a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+    </table>
+
+    {% import '_pagination.html' as p %}
+    {{ p.render_pagination(pagination, 'docs.index', dict(q=request.args.get('q'))) }}
 </div>
 {% endblock %}

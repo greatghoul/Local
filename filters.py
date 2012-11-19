@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
-from datetime import datetime
 
 
 def dateformat(value, format="%Y-%m-%d %H:%M"):
@@ -14,8 +13,9 @@ def empty(value, text=None):
     return value
 
 
-def error_class(filed):
-    return filed.errors and 'error' or ''
+def error_class(field):
+    print field
+    return field.errors and 'error' or ''
 
 
 def error_text(field, default='', sep='；'):
