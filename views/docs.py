@@ -3,7 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from flask import Blueprint, redirect, url_for, send_file, \
-                  render_template, flash, request
+                  render_template, flash, request, current_app
 from extensions import db
 from models.docs import Doc
 from forms.docs import DocForm
@@ -19,7 +19,7 @@ def index():
     page = int(request.args.get('page', '1'))
     logger.info('Keyworkd %s', keyword)
     query = keyword and Doc.query.filter(Doc.name.like(u'%%%s%%' % keyword)) or Doc.query
-    pagination = query.paginate(page, per_page=10)
+    pagination = query.paginate(page, per_page=current_app.config.get('PAGE_SIZE', 20))
     # docs = pagination.items
     return render_template('docs/index.html', pagination=pagination)
 
@@ -31,7 +31,7 @@ def create():
         logger.info(form.populate_obj(doc))
         db.session.add(doc)
         flash('Document created successfully.', 'success')
-        return form.redirect('.index')
+        return redirect('.index')
     else:
         return render_template('docs/create.html', form=form)
 
@@ -46,7 +46,7 @@ def update(slug):
     if form.validate_on_submit():
         form.populate_obj(doc)
         flash('Document updated successfully.', 'success')
-        return form.redirect('.index')
+        return redirect('.index')
     else:
         not form.errors and form.process(obj=doc)
         return render_template('docs/create.html', form=form)

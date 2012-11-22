@@ -12,3 +12,5 @@ LOGGER_FORMAT = '[%(levelname)s %(name)s:%(lineno)d] %(message)s'
 SERVER_NAME = 'local.g2w.me'
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:////home/greatghoul/Projects/Local/local.db'
+
+PAGE_SIZE = 20
